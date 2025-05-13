@@ -1,0 +1,27 @@
+x-veld:
+  code:
+    description: "note that this must be run with `docker compose -f veld_enter_shell.yaml run 
+      veld_embeddings_platform_enter_shell` and also requires a running postgres server (which can 
+      be started with the other veld service `veld_run_server.yaml`."
+
+services:
+  veld_embeddings_platform_enter_shell:
+    build: .
+    command: bash -c "psql \"postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@$${POSTGRES_HOST}:5432/$${POSTGRES_DB}\""
+    volumes:
+      - ./data/storage/history/:/veld/storage/history/
+    environment:
+      POSTGRES_USER: "postgres_user"
+      POSTGRES_PASSWORD: "postgres_password"
+      POSTGRES_DB: "postgres_db"
+      POSTGRES_HOST: "veld_embeddings_platform_run_server"
+      PSQL_HISTORY: "/veld/storage/history/psql_history"
+    stdin_open: true
+    tty: true
+    networks:
+      - veld_postgres
+
+networks:
+  veld_postgres:
+    driver: bridge
+

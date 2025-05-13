@@ -31,9 +31,9 @@ RUN ./configure && make && make check && make install
 ENV PATH="${PATH}:/usr/local/pgsql/bin"
 RUN postgres --version
 
-ENV PGDATA /veld/storage/
-RUN mkdir -p /veld/storage/
-VOLUME /veld/storage/
+ENV PGDATA /veld/storage/db/
+RUN mkdir -p /veld/storage/db/
+VOLUME /veld/storage/db/
 
 RUN mkdir /docker-entrypoint-initdb.d
 COPY docker-entrypoint.sh docker-ensure-initdb.sh /usr/local/bin/
