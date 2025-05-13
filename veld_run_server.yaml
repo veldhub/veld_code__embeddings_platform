@@ -37,10 +37,11 @@ x-veld:
         optional: true
 
 services:
-  veld_postgres:
+  veld_embeddings_platform_run_server:
     build: .
     volumes:
-      - ./data/storage/:/veld/storage/
+      - ./data/storage/db/:/veld/storage/db/
+      - ./data/storage/history/:/veld/storage/history/
       - ./data/input/:/veld/input/
     ports:
       - "127.0.0.1:5432:5432"
@@ -48,6 +49,7 @@ services:
       POSTGRES_USER: "postgres_user"
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
+      PSQL_HISTORY: "/veld/storage/history/psql_history"
     networks:
       - veld_postgres
 
