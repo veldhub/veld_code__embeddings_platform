@@ -49,7 +49,6 @@ services:
       POSTGRES_USER: "postgres_user"
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
-      PSQL_HISTORY: "/veld/storage/history/psql_history"
     networks:
       - veld_postgres
 
