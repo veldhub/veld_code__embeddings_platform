@@ -45,5 +45,14 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 STOPSIGNAL SIGINT
 EXPOSE 5432
+
+# pgvector plugin
+RUN apt update
+RUN apt install -y --no-install-recommends curl=7.74.0* unzip=6.0* ca-certificates=20210119
+RUN curl -L https://github.com/pgvector/pgvector/archive/refs/tags/v0.8.0.zip -o pgvector-0.8.0.zip
+RUN unzip pgvector-0.8.0.zip
+WORKDIR /veld/code/pgvector-0.8.0/
+RUN make && make install
+
 CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
 
