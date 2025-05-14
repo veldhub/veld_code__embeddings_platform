@@ -15,7 +15,6 @@ services:
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
       POSTGRES_HOST: "veld_embeddings_platform_run_server"
-      PSQL_HISTORY: "/veld/storage/history/psql_history"
     stdin_open: true
     tty: true
     networks:

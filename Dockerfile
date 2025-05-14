@@ -32,8 +32,11 @@ ENV PATH="${PATH}:/usr/local/pgsql/bin"
 RUN postgres --version
 
 ENV PGDATA /veld/storage/db/
+ENV PSQL_HISTORY /veld/storage/history/psql_history
 RUN mkdir -p /veld/storage/db/
+RUN mkdir -p /veld/storage/history/
 VOLUME /veld/storage/db/
+VOLUME /veld/storage/history/
 
 RUN mkdir /docker-entrypoint-initdb.d
 COPY docker-entrypoint.sh docker-ensure-initdb.sh /usr/local/bin/
