@@ -25,7 +25,7 @@ RUN set -eux; \
   locale -a | grep 'en_US.utf8'
 ENV LANG en_US.utf8
 
-COPY ./src/ /veld/code/
+COPY ./src/postgres/ /veld/code/
 WORKDIR /veld/code/
 RUN ./configure && make && make check && make install
 ENV PATH="${PATH}:/usr/local/pgsql/bin"
@@ -53,6 +53,15 @@ RUN curl -L https://github.com/pgvector/pgvector/archive/refs/tags/v0.8.0.zip -o
 RUN unzip pgvector-0.8.0.zip
 WORKDIR /veld/code/pgvector-0.8.0/
 RUN make && make install
+
+# python & jupyter
+RUN apt update
+RUN apt install -y --no-install-recommends python3=3.9.2* python3-pip=20.3.4*
+RUN pip install matplotlib==3.9.4
+RUN pip install scikit-learn==1.6.1
+RUN pip install notebook==7.4.2
+RUN pip install psycopg[binary]==3.2.9 
+RUN pip install pgvector==0.4.1
 
 CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
 
