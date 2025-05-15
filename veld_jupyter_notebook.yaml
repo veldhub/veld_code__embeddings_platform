@@ -1,0 +1,19 @@
+x-veld:
+  code:
+
+services:
+  veld_jupyter_notebook:
+    build: .
+    command: jupyter notebook --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
+    ports:
+      - 8888:8888
+    working_dir: /veld/code/
+    volumes:
+      - ./src/notebooks/:/veld/code/
+    networks:
+      - veld_postgres
+
+networks:
+  veld_postgres:
+    driver: bridge
+
