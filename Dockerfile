@@ -31,12 +31,12 @@ RUN ./configure && make && make check && make install
 ENV PATH="${PATH}:/usr/local/pgsql/bin"
 RUN postgres --version
 
-ENV PGDATA /veld/storage/db/
-ENV PSQL_HISTORY /veld/storage/history/psql_history
-RUN mkdir -p /veld/storage/db/
-RUN mkdir -p /veld/storage/history/
-VOLUME /veld/storage/db/
-VOLUME /veld/storage/history/
+ENV PGDATA /veld/storage/postgres/db/
+ENV PSQL_HISTORY /veld/storage/postgres/history/psql_history
+RUN mkdir -p /veld/storage/postgres/db/
+RUN mkdir -p /veld/storage/postgres/history/
+VOLUME /veld/storage/postgres/db/
+VOLUME /veld/storage/postgres/history/
 
 RUN mkdir /docker-entrypoint-initdb.d
 COPY docker-entrypoint.sh docker-ensure-initdb.sh /usr/local/bin/
@@ -55,11 +55,12 @@ WORKDIR /veld/code/pgvector-0.8.0/
 RUN make && make install
 
 # python & jupyter
+VOLUME /veld/storage/jupyter/
 RUN apt update
 RUN apt install -y --no-install-recommends python3=3.9.2* python3-pip=20.3.4*
+RUN pip install jupyterlab==4.4.2
 RUN pip install matplotlib==3.9.4
 RUN pip install scikit-learn==1.6.1
-RUN pip install notebook==7.4.2
 RUN pip install psycopg[binary]==3.2.9 
 RUN pip install pgvector==0.4.1
 

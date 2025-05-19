@@ -40,8 +40,8 @@ services:
   veld_embeddings_platform_run_server:
     build: .
     volumes:
-      - ./data/storage/db/:/veld/storage/db/
-      - ./data/storage/history/:/veld/storage/history/
+      - ./data/storage/postgres/db/:/veld/storage/postgres/db/
+      - ./data/storage/postgres/history/:/veld/storage/postres/history/
       - ./data/input/:/veld/input/
     ports:
       - "127.0.0.1:5432:5432"
