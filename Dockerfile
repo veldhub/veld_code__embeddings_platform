@@ -63,6 +63,7 @@ RUN pip install matplotlib==3.9.4
 RUN pip install scikit-learn==1.6.1
 RUN pip install psycopg[binary]==3.2.9 
 RUN pip install pgvector==0.4.1
+RUN pip install kneed==0.8.5
 
 CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
 
