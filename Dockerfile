@@ -64,6 +64,14 @@ RUN pip install scikit-learn==1.6.1
 RUN pip install psycopg[binary]==3.2.9 
 RUN pip install pgvector==0.4.1
 RUN pip install kneed==0.8.5
+RUN pip install plotly==6.1.1
+RUN pip install pandas==2.2.3
+RUN pip install jupyterlab-code-formatter==3.0.2
+RUN pip install black==25.1.0
+RUN pip install isort==6.0.1
+#RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter
+RUN jupyter server extension enable --py jupyterlab_code_formatter
+
 
 CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
 
