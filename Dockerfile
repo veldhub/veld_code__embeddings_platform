@@ -69,6 +69,8 @@ RUN pip install pandas==2.2.3
 RUN pip install jupyterlab-code-formatter==3.0.2
 RUN pip install black==25.1.0
 RUN pip install isort==6.0.1
+RUN pip install umap-learn==0.5.7
+RUN pip install ipywidgets==8.1.7
 #RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter
 RUN jupyter server extension enable --py jupyterlab_code_formatter
 
