@@ -13,8 +13,6 @@ services:
       - ./data/storage/jupyter/:/veld/storage/jupyter/
     networks:
       - veld_postgres
-    environment:
-      JUPYTER_CONFIG_DIR: /veld/storage/jupyter/
 
 networks:
   veld_postgres:

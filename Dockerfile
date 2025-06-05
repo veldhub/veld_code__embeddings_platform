@@ -73,6 +73,7 @@ RUN pip install umap-learn==0.5.7
 RUN pip install ipywidgets==8.1.7
 #RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter
 RUN jupyter server extension enable --py jupyterlab_code_formatter
+ENV JUPYTER_CONFIG_DIR /veld/storage/jupyter/
 
 
 CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
