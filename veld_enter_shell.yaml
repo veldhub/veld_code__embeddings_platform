@@ -14,7 +14,7 @@ services:
       POSTGRES_USER: "postgres_user"
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
-      POSTGRES_HOST: "veld_embeddings_platform_run_sql_server"
+      POSTGRES_HOST: "veld_embeddings_platform_run_server"
     stdin_open: true
     tty: true
     networks:
