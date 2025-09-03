@@ -50,9 +50,9 @@ services:
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
     networks:
-      - veld_postgres
+      - postgres_network
 
 networks:
-  veld_postgres:
+  postgres_network:
     driver: bridge
 

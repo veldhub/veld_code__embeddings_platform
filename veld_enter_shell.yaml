@@ -18,9 +18,9 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - veld_postgres
+      - postgres_network
 
 networks:
-  veld_postgres:
+  postgres_network:
     driver: bridge
 
