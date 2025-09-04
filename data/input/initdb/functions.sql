@@ -1,4 +1,7 @@
 
+
+-- get_related -------------------------------------------------------------------------------------
+
 DROP FUNCTION IF EXISTS get_related;
 
 CREATE OR REPLACE FUNCTION get_related(
@@ -74,5 +77,61 @@ Returns:
 Example:
 SELECT * FROM get_related('frau', 'word2vec__m4', 'word', 'embedding');
 SELECT * FROM get_related('frau', 'word2vec__m4', 'word', 'embedding', 5, FALSE);
+$doc$;
+
+
+-- get_sim_between_words ---------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS get_sim_between_words;
+
+CREATE OR REPLACE FUNCTION get_sim_between_words (
+    word_search_1 TEXT,
+    word_search_2 TEXT,
+    embeddings_table TEXT,
+    word_column_name TEXT,
+    embeddings_column_name TEXT
+) RETURNS TABLE (cos_sim DOUBLE PRECISION) LANGUAGE PLPGSQL AS $$
+DECLARE
+    safe_word_search_1 TEXT := format('%L', word_search_1);
+    safe_word_search_2 TEXT := format('%L', word_search_2);
+    safe_embeddings_table TEXT := format('%I', embeddings_table);
+    safe_word_column_name TEXT := format('%I', word_column_name);
+    safe_embeddings_column_name TEXT := format('%I', embeddings_column_name);
+BEGIN
+    -- RAISE NOTICE 'safe_word_search_1: %', safe_word_search_1;
+    -- RAISE NOTICE 'word_search_2: %', word_search_2;
+    -- RAISE NOTICE 'safe_embeddings_table: %', safe_embeddings_table;
+    -- RAISE NOTICE 'safe_word_column_name: %', safe_word_column_name;
+    -- RAISE NOTICE 'safe_embeddings_column_name: %', safe_embeddings_column_name;
+    RETURN QUERY EXECUTE
+        ' SELECT 1 - ( t1.embedding <=> t2.embedding )' ||
+        ' FROM ' || safe_embeddings_table || ' t1 JOIN '  || safe_embeddings_table || ' t2 ' ||
+        '   ON t1.' || safe_word_column_name || '=' || safe_word_search_1 || ' AND t2.' || safe_word_column_name || '=' || safe_word_search_2 ||
+        ' LIMIT 2'
+    ;
+END;
+$$;
+
+COMMENT ON FUNCTION get_sim_between_words(
+    word_search_1 TEXT,
+    word_search_2 TEXT,
+    embeddings_table TEXT,
+    word_column_name TEXT,
+    embeddings_column_name TEXT
+) IS $doc$
+Returns the cosine similarity between two given words based on their vector embeddings.
+
+Parameters:
+- word_search_1 (TEXT): The first word to compare.
+- word_search_2 (TEXT): The second word to compare.
+- embeddings_table (TEXT): Name of the embeddings table.
+- word_column_name (TEXT): Name of the column that stores the words.
+- embeddings_column_name (TEXT): Name of the column that stores the embeddings (pgvector type).
+
+Returns:
+- cos_sim (DOUBLE PRECISION): Cosine similarity between the two words.
+
+Example:
+SELECT * FROM get_sim_between_words('frau', 'mann', 'word2vec__m4', 'word', 'embedding');
 $doc$;
 
