@@ -7,7 +7,7 @@ x-veld:
       - "relational database"
 
     input:
-      - volume: /veld/input/
+      - volume: /veld/input/config/
         file_type: "conf"
         content: "postgres configuration"
         description: "This volume must contain a config file named postgresql.conf! A template is 
@@ -15,9 +15,16 @@ x-veld:
           https://www.postgresql.org/docs/current/config-setting.html"
         optional: true
 
+      - volume: /veld/input/initdb/
+        file_type: "sql"
+        content: "sql startup scripts"
+        description: "any sql scripts in this folder will be executed if the database is 
+          intialized."
+        optional: true
+
     storage:
       - volume: /veld/storage/
-        file_type: "postgresql data"
+        file_type: "postgresql database"
 
     networks:
       - veld_postgres
@@ -42,7 +49,8 @@ services:
     volumes:
       - ./data/storage/postgres/db/:/veld/storage/postgres/db/
       - ./data/storage/postgres/history/:/veld/storage/postres/history/
-      - ./data/input/:/veld/input/
+      - ./data/input/config/:/veld/input/config/
+      - ./data/input/initdb/:/veld/input/initdb/
     ports:
       - "127.0.0.1:5432:5432"
     environment:

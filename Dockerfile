@@ -76,5 +76,5 @@ RUN jupyter server extension enable --py jupyterlab_code_formatter
 ENV JUPYTER_CONFIG_DIR /veld/storage/jupyter/
 
 
-CMD ["postgres", "-c", "config_file=/veld/input/postgresql.conf"]
+CMD ["postgres", "-c", "config_file=/veld/input/config/postgresql.conf"]
 
