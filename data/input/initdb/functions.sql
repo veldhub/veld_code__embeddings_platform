@@ -26,12 +26,6 @@ DECLARE
     safe_number_results TEXT := format('%L', number_results);
     order_clause TEXT;
 BEGIN
-    -- RAISE NOTICE 'safe_word_search: %', safe_word_search;
-    -- RAISE NOTICE 'safe_embeddings_table: %', safe_embeddings_table;
-    -- RAISE NOTICE 'safe_word_column_name: %', safe_word_column_name;
-    -- RAISE NOTICE 'safe_embeddings_column_name: %', safe_embeddings_column_name;
-    -- RAISE NOTICE 'safe_number_results: %', safe_number_results;
-    -- RAISE NOTICE 'order_by_closest: %', order_by_closest;
     IF order_by_closest THEN
         order_clause := 'DESC';
     ELSE
@@ -98,11 +92,6 @@ DECLARE
     safe_word_column_name TEXT := format('%I', word_column_name);
     safe_embeddings_column_name TEXT := format('%I', embeddings_column_name);
 BEGIN
-    -- RAISE NOTICE 'safe_word_search_1: %', safe_word_search_1;
-    -- RAISE NOTICE 'word_search_2: %', word_search_2;
-    -- RAISE NOTICE 'safe_embeddings_table: %', safe_embeddings_table;
-    -- RAISE NOTICE 'safe_word_column_name: %', safe_word_column_name;
-    -- RAISE NOTICE 'safe_embeddings_column_name: %', safe_embeddings_column_name;
     RETURN QUERY EXECUTE
         ' SELECT 1 - ( t1.embedding <=> t2.embedding )' ||
         ' FROM ' || safe_embeddings_table || ' t1 JOIN '  || safe_embeddings_table || ' t2 ' ||
