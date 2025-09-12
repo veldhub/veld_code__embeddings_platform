@@ -3,11 +3,11 @@ x-veld:
 
 services:
   veld_jupyter_notebook:
-    #build: .
-    image: steffrhes/veld_code_embeddings_platform:2025-09-12
+    build: .
+    #image: steffrhes/veld_code_embeddings_platform:2025-09-12
     command: jupyter lab --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
     ports:
-      - 8888:8888
+      - 8889:8888
     working_dir: /veld/code/
     volumes:
       - ./src/notebooks/:/veld/code/
