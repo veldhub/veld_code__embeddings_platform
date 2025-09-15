@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION get_related(
     embeddings_table TEXT,
     word_column_name TEXT,
     embeddings_column_name TEXT,
-    number_results INT DEFAULT 10,
+    number_results INT DEFAULT NULL,
     order_by_closest BOOLEAN DEFAULT TRUE
 )
 RETURNS TABLE(
@@ -28,13 +28,19 @@ DECLARE
     safe_embeddings_table TEXT := format('%I', embeddings_table);
     safe_word_column_name TEXT := format('%I', word_column_name);
     safe_embeddings_column_name TEXT := format('%I', embeddings_column_name);
-    safe_number_results TEXT := format('%L', number_results);
+    -- safe_number_results TEXT := format('%L', number_results);
+    limit_clause TEXT;
     order_clause TEXT;
 BEGIN
     IF order_by_closest THEN
         order_clause := 'DESC';
     ELSE
         order_clause := 'ASC';
+    END IF;
+    IF number_results IS NULL THEN
+      limit_clause := '';
+    ELSE
+      limit_clause := 'LIMIT ' || format('%L', number_results);
     END IF;
     RETURN QUERY EXECUTE
         ' SELECT' ||
@@ -43,8 +49,8 @@ BEGIN
         ' FROM ' || safe_embeddings_table || ' t1 JOIN ' || safe_embeddings_table || ' t2' ||
         '   ON t1.' || safe_word_column_name || ' <> t2.' || safe_word_column_name ||
         ' WHERE t1.' || safe_word_column_name || '=' || safe_word_search ||
-        ' ORDER BY cos_sim ' || order_clause ||
-        ' LIMIT ' || safe_number_results
+        ' ORDER BY cos_sim ' || order_clause || ' ' || limit_clause
+        -- ' LIMIT ' || safe_number_results
     ;
 END;
 $$;
@@ -58,20 +64,20 @@ COMMENT ON FUNCTION get_related(
     number_results INT,
     order_by_closest BOOLEAN
 ) IS $doc$
-Returns the most related words to a given word based on vector cosine similarity.
+Returns a list of words related to a given input word, ranked by cosine similarity of their vector embeddings.
 
 Parameters:
-- word_search (TEXT): The reference word to search for.
+- word_search (TEXT): The reference word for which related words should be found.
 - embeddings_table (TEXT): Name of the embeddings table.
 - word_column_name (TEXT): Name of the column that stores the words.
 - embeddings_column_name (TEXT): Name of the column that stores the embeddings (pgvector type).
-- number_results (INT, default 10): Maximum number of related words to return.
-- order_by_closest (BOOLEAN, default TRUE): If TRUE, return closest matches first; 
-if FALSE, return farthest words first.
+- number_results (INT, optional): Maximum number of related words to return. If NULL, all related words are returned.
+- order_by_closest (BOOLEAN, optional, default TRUE): Whether to order results by closest (highest cosine similarity).
+  If FALSE, results are ordered by most distant (lowest cosine similarity).
 
 Returns:
-- word_related (TEXT): Related word.
-- cos_sim (DOUBLE PRECISION): Cosine similarity to the input word.
+- word_related (TEXT): A word related to the input word.
+- cos_sim (DOUBLE PRECISION): Cosine similarity between the input word and the related word.
 
 Example:
 SELECT * FROM get_related('frau', 'word2vec__m4', 'word', 'embedding');
