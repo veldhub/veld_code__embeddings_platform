@@ -7,7 +7,6 @@ x-veld:
 services:
   veld_embeddings_platform_enter_shell:
     build: .
-    #image: steffrhes/veld_code_embeddings_platform:2025-09-12
     command: bash -c "pgcli postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@$${POSTGRES_HOST}:5432/$${POSTGRES_DB}"
     volumes:
       - ./data/storage/postgres/history/:/veld/storage/postgres/history/
