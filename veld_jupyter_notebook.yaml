@@ -7,7 +7,7 @@ services:
     #image: steffrhes/veld_code_embeddings_platform:2025-09-12
     command: jupyter lab --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
     ports:
-      - 8889:8888
+      - 8888:8888
     working_dir: /veld/code/
     volumes:
       - ./src/notebooks/:/veld/code/
