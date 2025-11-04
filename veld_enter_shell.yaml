@@ -7,8 +7,9 @@ x-veld:
 services:
   veld_embeddings_platform_enter_shell:
     build: .
-    command: bash -c "pgcli postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@$${POSTGRES_HOST}:5432/$${POSTGRES_DB}"
+    command: bash -c "pgcli --pgclirc /veld/input/pgcli.conf postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@$${POSTGRES_HOST}:5432/$${POSTGRES_DB}"
     volumes:
+      - ./data/input/config/pgcli.conf:/veld/input/pgcli.conf
       - ./data/storage/postgres/history/:/veld/storage/postgres/history/
     environment:
       POSTGRES_USER: "postgres_user"
