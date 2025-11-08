@@ -55,7 +55,6 @@ WORKDIR /veld/code/pgvector-0.8.0/
 RUN make && make install
 
 # python & jupyter
-VOLUME /veld/storage/jupyter/
 RUN apt update
 RUN apt install -y --no-install-recommends python3=3.9.2* python3-pip=20.3.4*
 RUN pip install jupyterlab==4.4.2
@@ -72,8 +71,11 @@ RUN pip install isort==6.0.1
 RUN pip install umap-learn==0.5.7
 RUN pip install ipywidgets==8.1.7
 RUN pip install pgcli==4.3.0
-ENV JUPYTER_CONFIG_DIR /veld/storage/jupyter/
 RUN pip install jupyterlab-lsp==5.2.0
 RUN pip install python-lsp-server[all]==1.13.1
 RUN pip install hdbscan==0.8.40
+RUN pip install diskcache==5.6.3
+RUN mkdir -p /veld/storage/jupyter/config/
+RUN mkdir -p /veld/storage/jupyter/cache/
+ENV JUPYTER_CONFIG_DIR /veld/storage/jupyter/config/
 

@@ -10,7 +10,8 @@ services:
     working_dir: /veld/code/
     volumes:
       - ./src/notebooks/:/veld/code/
-      - ./data/storage/jupyter/:/veld/storage/jupyter/
+      - ./data/storage/jupyter/config/:/veld/storage/jupyter/config/
+      - ./data/storage/jupyter/cache/:/veld/storage/jupyter/cache/
     environment:
       enable_testing: true
       table_name_sentences: null
