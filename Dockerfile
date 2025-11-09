@@ -74,7 +74,7 @@ RUN pip install pgcli==4.3.0
 RUN pip install jupyterlab-lsp==5.2.0
 RUN pip install python-lsp-server[all]==1.13.1
 RUN pip install hdbscan==0.8.40
-RUN pip install diskcache==5.6.3
+RUN pip install joblib==1.5.2
 RUN mkdir -p /veld/storage/jupyter/config/
 RUN mkdir -p /veld/storage/jupyter/cache/
 ENV JUPYTER_CONFIG_DIR /veld/storage/jupyter/config/
