@@ -17,6 +17,7 @@ services:
       table_name_sentences: null
       table_name_lemmas: null
       table_name_embeddings: null
+      table_name_clusters_distances: null
       POSTGRES_HOST: null
       POSTGRES_PORT: null
       POSTGRES_DB: null
