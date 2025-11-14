@@ -4,7 +4,7 @@ x-veld:
 services:
   veld_jupyter_notebook:
     build: .
-    command: jupyter lab --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
+    command: bash /veld/code/run.sh
     ports:
       - 8888:8888
     working_dir: /veld/code/
@@ -14,10 +14,12 @@ services:
       - ./data/storage/jupyter/cache/:/veld/storage/jupyter/cache/
     environment:
       enable_testing: true
+      enable_db_modification: true
       table_name_sentences: null
       table_name_lemmas: null
       table_name_embeddings: null
       table_name_clusters_distances: null
+      run_interactively: true
       POSTGRES_HOST: null
       POSTGRES_PORT: null
       POSTGRES_DB: null
